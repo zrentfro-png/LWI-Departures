@@ -123,3 +123,44 @@ loadFlights();
 // Updates automatically from Google Sheets
 
 setInterval(loadFlights,15000);
+
+
+let autoScroll = true;
+let scrollSpeed = 1;
+
+
+const board = document.querySelector(".board");
+
+
+// Auto scroll
+setInterval(()=>{
+
+    if(autoScroll){
+
+        board.scrollTop += scrollSpeed;
+
+
+        if(board.scrollTop >= board.scrollHeight - board.clientHeight){
+
+            board.scrollTop = 0;
+
+        }
+
+    }
+
+},50);
+
+
+// Pause when user touches it
+board.addEventListener("wheel",()=>{
+
+    autoScroll = false;
+
+
+    setTimeout(()=>{
+
+        autoScroll = true;
+
+    },5000);
+
+});
