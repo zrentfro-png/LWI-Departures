@@ -68,17 +68,13 @@ function convertTime(value){
 
     if(!value) return "";
 
+    // Extract the HH:MM directly from Google's timestamp
+    let time = value.substring(11,16);
 
-    let date = new Date(value);
-
-
-    let hour = date.getUTCHours();
-
-    let minute = date.getUTCMinutes();
-
+    let hour = parseInt(time.substring(0,2));
+    let minute = time.substring(3,5);
 
     let ampm = hour >= 12 ? "PM" : "AM";
-
 
     hour = hour % 12;
 
@@ -86,8 +82,7 @@ function convertTime(value){
         hour = 12;
     }
 
-
-    return `${hour}:${String(minute).padStart(2,"0")} ${ampm}`;
+    return `${hour}:${minute} ${ampm}`;
 
 }
 
