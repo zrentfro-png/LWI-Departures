@@ -68,21 +68,27 @@ function convertTime(value){
 
     if(!value) return "";
 
-    // Extract the HH:MM directly from Google's timestamp
-    let time = value.substring(11,16);
+    // If Google Sheets gives 2:00:00 AM
+    let parts = value.split(" ");
 
-    let hour = parseInt(time.substring(0,2));
-    let minute = time.substring(3,5);
+    let time = parts[0];
+    let ampm = parts[1] || "";
 
-    let ampm = hour >= 12 ? "PM" : "AM";
 
-    hour = hour % 12;
+    let timeParts = time.split(":");
 
-    if(hour === 0){
-        hour = 12;
+    let hour = Number(timeParts[0]);
+    let minute = timeParts[1];
+
+
+    if(ampm){
+
+        return `${hour}:${minute} ${ampm}`;
+
     }
 
-    return `${hour}:${minute} ${ampm}`;
+
+    return value;
 
 }
 
