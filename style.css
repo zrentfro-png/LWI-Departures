@@ -41,7 +41,7 @@ h2 {
 
 .board {
     height:calc(100vh - 220px);
-    overflow:hidden;
+    overflow-y:auto;
 }
 
 
