@@ -16,6 +16,15 @@ async function loadFlights(){
 
         flights.forEach(flight => {
 
+
+            // Find columns even if spaces/colons are different
+            let boardingKey = Object.keys(flight)
+                .find(key => key.includes("BOARDING TIME"));
+
+            let departureKey = Object.keys(flight)
+                .find(key => key.includes("DEPARTURE TIME"));
+
+
             let status = flight["STATUS:"] || "On Time";
 
 
@@ -37,9 +46,9 @@ async function loadFlights(){
 
                 <td>${flight["GATE:"] || ""}</td>
 
-<td>${flight["BOARDING TIME:"] || ""}</td>
+                <td>${flight[boardingKey] || ""}</td>
 
-<td>${flight["DEPARTURE TIME:"] || ""}</td>
+                <td>${flight[departureKey] || ""}</td>
 
                 <td class="${statusClass}">
                     ${status}
@@ -60,11 +69,6 @@ async function loadFlights(){
     }
 
 }
-
-
-
-// Converts Google Sheet time into FIDS format
-
 
 
 
@@ -92,14 +96,12 @@ setInterval(updateClock,1000);
 updateClock();
 
 
-
-// LOAD FLIGHTS
+// LOAD
 
 loadFlights();
 
 
-
-// AUTO UPDATE EVERY 15 SECONDS
+// AUTO UPDATE
 
 setInterval(loadFlights,15000);
 
@@ -130,8 +132,6 @@ setInterval(()=>{
 },50);
 
 
-
-// PAUSE AUTO SCROLL WHEN USER SCROLLS
 
 if(board){
 
