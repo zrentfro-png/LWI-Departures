@@ -77,21 +77,28 @@ async function loadFlights(){
 }
 
 
-
 function convertTime(value){
 
     if(!value) return "";
 
-    let date=new Date(value);
+    let time = value.split("T")[1];
 
+    if(!time) return value;
 
-    return date.toLocaleTimeString([],{
+    let hour = parseInt(time.substring(0,2));
+    let minute = time.substring(3,5);
 
-        hour:"numeric",
+    let ampm = hour >= 12 ? "PM" : "AM";
 
-        minute:"2-digit"
+    hour = hour % 12;
 
-    });
+    if(hour === 0){
+        hour = 12;
+    }
+
+    return `${hour}:${minute} ${ampm}`;
+
+}
 
 }
 
