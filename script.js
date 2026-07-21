@@ -81,12 +81,12 @@ function convertTime(value){
 
     if(!value) return "";
 
-    let time = value.split("T")[1];
+    let match = value.match(/T(\d+):(\d+)/);
 
-    if(!time) return value;
+    if(!match) return "";
 
-    let hour = parseInt(time.substring(0,2));
-    let minute = time.substring(3,5);
+    let hour = Number(match[1]);
+    let minute = match[2];
 
     let ampm = hour >= 12 ? "PM" : "AM";
 
