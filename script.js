@@ -37,9 +37,9 @@ async function loadFlights(){
 
                 <td>${flight["GATE:"] || ""}</td>
 
-                <td>${formatTime(flight["BOARDING TIME"])}</td>
+<td>${flight["BOARDING TIME:"] || ""}</td>
 
-                <td>${formatTime(flight["DEPARTURE TIME:"])}</td>
+<td>${flight["DEPARTURE TIME:"] || ""}</td>
 
                 <td class="${statusClass}">
                     ${status}
@@ -64,36 +64,7 @@ async function loadFlights(){
 
 
 // Converts Google Sheet time into FIDS format
-function formatTime(value){
 
-    if(!value){
-        return "";
-    }
-
-
-    value = String(value).trim();
-
-
-    // Example: 2:00:00 AM
-    let parts = value.split(" ");
-
-
-    let time = parts[0];
-
-    let ampm = parts[1] || "";
-
-
-    let numbers = time.split(":");
-
-
-    let hour = numbers[0];
-
-    let minute = numbers[1];
-
-
-    return `${hour}:${minute} ${ampm}`;
-
-}
 
 
 
