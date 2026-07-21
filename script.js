@@ -9,59 +9,45 @@ async function loadFlights(){
 
         const flights = await response.json();
 
-
         const board = document.getElementById("flights");
 
-        board.innerHTML="";
+        board.innerHTML = "";
 
 
-        flights.sort((a,b)=>{
+        flights.forEach(flight => {
 
-            return new Date(a["DEPARTURE TIME:"]) -
-                   new Date(b["DEPARTURE TIME:"]);
+            let status = flight["STATUS:"] || "On Time";
 
-        });
-
-
-
-        flights.forEach(flight=>{
+            let statusClass = status
+                .replaceAll(" ","-")
+                .toUpperCase();
 
 
-            let status =
-            flight["STATUS:"] || "On Time";
+            let row = document.createElement("tr");
 
 
-            let statusClass =
-            status.replaceAll(" ","-").toUpperCase();
+            row.innerHTML = `
 
+                <td>${flight["AIRLINE"] || ""}</td>
 
+                <td><b>${flight["FLIGHT NUMBER"] || ""}</b></td>
 
-            let row=document.createElement("tr");
+                <td>${flight["TO:"] || ""}</td>
 
+                <td>${flight["GATE:"] || ""}</td>
 
-            row.innerHTML=`
+                <td>${convertTime(flight["BOARDING TIME"])}</td>
 
-            <td>${flight["AIRLINE"] || ""}</td>
+                <td>${convertTime(flight["DEPARTURE TIME:"])}</td>
 
-            <td><b>${flight["FLIGHT NUMBER"]}</b></td>
-
-            <td>${flight["TO:"]}</td>
-
-            <td>${flight["GATE:"]}</td>
-
-            <td>${convertTime(flight["BOARDING TIME"])}</td>
-
-            <td>${convertTime(flight["DEPARTURE TIME:"])}</td>
-
-            <td class="${statusClass}">
-            ${status}
-            </td>
+                <td class="${statusClass}">
+                    ${status}
+                </td>
 
             `;
 
 
             board.appendChild(row);
-
 
         });
 
@@ -70,25 +56,29 @@ async function loadFlights(){
 
     catch(error){
 
-        console.log("FIDS ERROR:",error);
+        console.log("FIDS ERROR:", error);
 
     }
 
 }
 
 
+
 function convertTime(value){
 
     if(!value) return "";
 
-    let match = value.match(/T(\d+):(\d+)/);
 
-    if(!match) return "";
+    let date = new Date(value);
 
-    let hour = Number(match[1]);
-    let minute = match[2];
+
+    let hour = date.getUTCHours();
+
+    let minute = date.getUTCMinutes();
+
 
     let ampm = hour >= 12 ? "PM" : "AM";
+
 
     hour = hour % 12;
 
@@ -96,9 +86,8 @@ function convertTime(value){
         hour = 12;
     }
 
-    return `${hour}:${minute} ${ampm}`;
 
-}
+    return `${hour}:${String(minute).padStart(2,"0")} ${ampm}`;
 
 }
 
@@ -127,22 +116,25 @@ updateClock();
 loadFlights();
 
 
-// Updates automatically from Google Sheets
+// Update from Google Sheets every 15 seconds
 
 setInterval(loadFlights,15000);
 
 
+
+// Auto scrolling
+
 let autoScroll = true;
+
 let scrollSpeed = 1;
 
 
 const board = document.querySelector(".board");
 
 
-// Auto scroll
 setInterval(()=>{
 
-    if(autoScroll){
+    if(autoScroll && board){
 
         board.scrollTop += scrollSpeed;
 
@@ -158,16 +150,20 @@ setInterval(()=>{
 },50);
 
 
-// Pause when user touches it
-board.addEventListener("wheel",()=>{
 
-    autoScroll = false;
+if(board){
+
+    board.addEventListener("wheel",()=>{
+
+        autoScroll = false;
 
 
-    setTimeout(()=>{
+        setTimeout(()=>{
 
-        autoScroll = true;
+            autoScroll = true;
 
-    },5000);
+        },5000);
 
-});
+    });
+
+}
