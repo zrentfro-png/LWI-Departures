@@ -18,8 +18,9 @@ async function loadFlights(){
 
             let status = flight["STATUS:"] || "On Time";
 
+
             let statusClass = status
-                .replaceAll(" ","-")
+                .replace(/\s+/g, "-")
                 .toUpperCase();
 
 
@@ -36,9 +37,9 @@ async function loadFlights(){
 
                 <td>${flight["GATE:"] || ""}</td>
 
-                <td>${convertTime(flight["BOARDING TIME"])}</td>
+                <td>${formatTime(flight["BOARDING TIME"])}</td>
 
-                <td>${convertTime(flight["DEPARTURE TIME:"])}</td>
+                <td>${formatTime(flight["DEPARTURE TIME:"])}</td>
 
                 <td class="${statusClass}">
                     ${status}
@@ -52,9 +53,7 @@ async function loadFlights(){
         });
 
 
-    }
-
-    catch(error){
+    } catch(error){
 
         console.log("FIDS ERROR:", error);
 
@@ -64,49 +63,57 @@ async function loadFlights(){
 
 
 
-function convertTime(value){
+// Converts Google Sheet time into FIDS format
+function formatTime(value){
 
-    if(!value) return "";
-
-    // If Google Sheets gives 2:00:00 AM
-    let parts = value.split(" ");
-
-    let time = parts[0];
-    let ampm = parts[1] || "";
-
-
-    let timeParts = time.split(":");
-
-    let hour = Number(timeParts[0]);
-    let minute = timeParts[1];
-
-
-    if(ampm){
-
-        return `${hour}:${minute} ${ampm}`;
-
+    if(!value){
+        return "";
     }
 
 
-    return value;
+    value = String(value).trim();
+
+
+    // Example: 2:00:00 AM
+    let parts = value.split(" ");
+
+
+    let time = parts[0];
+
+    let ampm = parts[1] || "";
+
+
+    let numbers = time.split(":");
+
+
+    let hour = numbers[0];
+
+    let minute = numbers[1];
+
+
+    return `${hour}:${minute} ${ampm}`;
 
 }
 
 
+
+// CLOCK
 
 function updateClock(){
 
-    document.getElementById("clock").innerHTML =
-    new Date().toLocaleTimeString([],{
+    const clock = document.getElementById("clock");
 
-        hour:"numeric",
+    if(clock){
 
-        minute:"2-digit"
+        clock.innerHTML =
+        new Date().toLocaleTimeString([], {
+            hour:"numeric",
+            minute:"2-digit"
+        });
 
-    });
+    }
 
 }
-
 
 
 setInterval(updateClock,1000);
@@ -114,21 +121,22 @@ setInterval(updateClock,1000);
 updateClock();
 
 
+
+// LOAD FLIGHTS
+
 loadFlights();
 
 
-// Update from Google Sheets every 15 seconds
+
+// AUTO UPDATE EVERY 15 SECONDS
 
 setInterval(loadFlights,15000);
 
 
 
-// Auto scrolling
+// AUTO SCROLL
 
 let autoScroll = true;
-
-let scrollSpeed = 1;
-
 
 const board = document.querySelector(".board");
 
@@ -137,7 +145,7 @@ setInterval(()=>{
 
     if(autoScroll && board){
 
-        board.scrollTop += scrollSpeed;
+        board.scrollTop += 1;
 
 
         if(board.scrollTop >= board.scrollHeight - board.clientHeight){
@@ -151,6 +159,8 @@ setInterval(()=>{
 },50);
 
 
+
+// PAUSE AUTO SCROLL WHEN USER SCROLLS
 
 if(board){
 
