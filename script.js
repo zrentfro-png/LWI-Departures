@@ -41,6 +41,38 @@ function isInDisplayWindow(departureTime) {
     return diff >= -FALL_OFF_MS && diff <= LOOK_AHEAD_MS;
 }
 
+// Map each airline name (exactly as it appears in the sheet, lowercase)
+// to a logo file in your /logos folder. Add a new line here every time
+// you add a new logo image. Airlines not listed just show as text.
+const AIRLINE_LOGOS = {
+    "united": "logos/united.png",
+    "avelo": "logos/avelo.png",
+    "american": "logos/american.png",
+    "jetblue": "logos/jetblue.png",
+    "alaska": "logos/alaska.png",
+    "southwest": "logos/southwest.png",
+    "breeze": "logos/breeze.png",
+    "delta": "logos/delta.png",
+    "frontier": "logos/frontier.png",
+    "spirit": "logos/spirit.png",
+    "allegiant": "logos/allegiant.png",
+    "sun country": "logos/sun-country.png",
+    "hawaiian": "logos/hawaiian.png"
+};
+
+function renderAirline(airlineName) {
+
+    const name = (airlineName || "").trim();
+    const key = name.toLowerCase();
+    const logo = AIRLINE_LOGOS[key];
+
+    if (logo) {
+        return `<img src="${logo}" alt="${name}" class="airline-logo">`;
+    }
+
+    return name;
+}
+
 async function loadFlights() {
 
     try {
@@ -68,7 +100,7 @@ async function loadFlights() {
             const row = document.createElement("tr");
 
             row.innerHTML = `
-                <td>${flight["AIRLINE"] || ""}</td>
+                <td>${renderAirline(flight["AIRLINE"])}</td>
                 <td><b>${flight["FLIGHT NUMBER"] || ""}</b></td>
                 <td>${flight["TO:"] || ""}</td>
                 <td>${flight["GATE:"] || ""}</td>
