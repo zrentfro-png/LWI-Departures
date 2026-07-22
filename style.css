@@ -133,8 +133,8 @@ tr:nth-child(even){
 }
 
 .airline-logo {
-    height:32px;
-    max-width:120px;
+    height:60px;
+    max-width:160px;
     object-fit:contain;
     vertical-align:middle;
 }
