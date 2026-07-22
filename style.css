@@ -97,7 +97,40 @@ tr:nth-child(even){
     color:#ff1744;
 }
 
+.BOARDING{
+    color:#ffd54a;
+    font-weight:bold;
+}
 
+.FINAL-CALL{
+    color:#ff9800;
+    font-weight:bold;
+}
+
+.DEPARTING{
+    color:#42a5f5;
+    font-weight:bold;
+}
+
+.DEPARTED{
+    color:#9e9e9e;
+    font-weight:bold;
+}
+
+.DELAYED{
+    color:#ff9800;
+    font-weight:bold;
+}
+
+.CANCELLED{
+    color:#ff4444;
+    font-weight:bold;
+}
+
+.ON-TIME{
+    color:#00e676;
+    font-weight:bold;
+}
 
 footer {
     position:absolute;
