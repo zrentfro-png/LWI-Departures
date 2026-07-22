@@ -1,5 +1,46 @@
 const API = "https://script.googleusercontent.com/macros/echo?user_content_key=AUkAhnRAw3GPVOLphzjelcLJGu_NJNEVYmumy5qom0K-TDpVXYPqk5IgfpVu9ruDGNJ7yEqqcpd7EPf8y2Xv7nZk2NjgjzEXjFP7Vmcs23sxP7NMqaEqQIOVtZhOixQMucVLAsF28KUeUq54yMR8s7v0vcewBhPQ5RFSnW7iSozfiW1IPlOhTIp7BQUTAW99aEP7xbDkHPCii4MQDgc6hpM51qy31xoudCKkmaEeGuckp5epJ93x3mD07VoAx3Iy2MRpARkJFMId8dezcu0HgPQ9uMmg8LapwQ&lib=Mxt-baddJceS0L-iRd-R-8E_9C8zt4dUy";
 
+// Accepts "3:45 PM", "3:45PM", "03:45 pm", etc. and returns a Date
+// object for today at that time, or null if it can't be parsed.
+function parseTime(time) {
+
+    if (!time) return null;
+
+    const match = time.trim().match(/(\d{1,2}):(\d{2})\s*([AaPp][Mm])/);
+    if (!match) return null;
+
+    let hour = Number(match[1]);
+    const minute = Number(match[2]);
+    const ampm = match[3].toUpperCase();
+
+    if (ampm === "PM" && hour !== 12) hour += 12;
+    if (ampm === "AM" && hour === 12) hour = 0;
+
+    const d = new Date();
+    d.setHours(hour, minute, 0, 0);
+
+    return d;
+}
+
+// Rolling display window: hide flights that departed more than 30
+// minutes ago, and don't show flights more than 2 hours out yet.
+// Recalculated every refresh, so the window slides forward on its own.
+const FALL_OFF_MS = 30 * 60 * 1000;      // 30 minutes in the past
+const LOOK_AHEAD_MS = 2 * 60 * 60 * 1000; // 2 hours in the future
+
+function isInDisplayWindow(departureTime) {
+
+    const departure = parseTime(departureTime);
+
+    // If we can't parse a departure time, show it rather than hide it
+    // (better to see a flight with a data problem than have it vanish).
+    if (!departure) return true;
+
+    const diff = departure.getTime() - Date.now();
+
+    return diff >= -FALL_OFF_MS && diff <= LOOK_AHEAD_MS;
+}
+
 async function loadFlights() {
 
     try {
@@ -10,10 +51,12 @@ async function loadFlights() {
         const board = document.getElementById("flights");
         board.innerHTML = "";
 
-        flights.forEach(flight => {
+        flights
+        .filter(flight => isInDisplayWindow(flight["DEPARTURE TIME:"]))
+        .forEach(flight => {
 
             const status = getStatus(
-                flight["STATUS:"] || "On Time",
+                flight["STATUS:"] || "",
                 flight["BOARDING TIME:"],
                 flight["DEPARTURE TIME:"]
             );
@@ -46,37 +89,39 @@ async function loadFlights() {
 
 }
 
+// Statuses that can be typed directly into the STATUS column in the
+// Google Sheet. If the cell matches one of these (case-insensitive),
+// it is shown exactly as-is and the automatic time-based logic below
+// is skipped entirely. Leave the cell BLANK or type "Auto" to let the
+// script calculate the status from the boarding/departure times.
+const MANUAL_STATUSES = {
+    "cancelled": "Cancelled",
+    "delayed": "Delayed",
+    "on time": "On Time",
+    "boarding": "Boarding",
+    "final call": "Final Call",
+    "departing": "Departing",
+    "departed": "Departed",
+    "gate closed": "Gate Closed",
+    "diverted": "Diverted"
+};
+
 function getStatus(sheetStatus, boardingTime, departureTime) {
 
-    sheetStatus = (sheetStatus || "").trim().toLowerCase();
+    const raw = (sheetStatus || "").trim();
+    const key = raw.toLowerCase();
 
-    // Manual statuses always win
-    if (sheetStatus === "cancelled") return "Cancelled";
-    if (sheetStatus === "delayed") return "Delayed";
+    // --- MANUAL OVERRIDE ---
+    // Anything in the sheet that matches a known status (other than
+    // blank/"auto") wins immediately, no time math involved.
+    if (key && key !== "auto" && MANUAL_STATUSES[key]) {
+        return MANUAL_STATUSES[key];
+    }
 
+    // --- AUTOMATIC TIME-BASED STATUS ---
     if (!departureTime) return "On Time";
 
     const now = new Date();
-
-    function parseTime(time) {
-
-        if (!time) return null;
-
-        const [clock, ampm] = time.trim().split(" ");
-
-        if (!clock || !ampm) return null;
-
-        let [hour, minute] = clock.split(":").map(Number);
-
-        if (ampm.toUpperCase() === "PM" && hour !== 12) hour += 12;
-        if (ampm.toUpperCase() === "AM" && hour === 12) hour = 0;
-
-        const d = new Date();
-
-        d.setHours(hour, minute, 0, 0);
-
-        return d;
-    }
 
     const boarding = parseTime(boardingTime);
     const departure = parseTime(departureTime);
@@ -130,20 +175,32 @@ setInterval(loadFlights, 15000);
 // AUTO SCROLL
 
 let autoScroll = true;
+let holding = false; // true while paused at the top or bottom
+
+const HOLD_MS = 4000; // how long to sit at the bottom/top before moving again
 
 const board = document.querySelector(".board");
 
 setInterval(() => {
 
-    if (autoScroll && board) {
+    if (!autoScroll || !board || holding) return;
 
-        board.scrollTop += 1;
+    const atBottom = board.scrollTop >= board.scrollHeight - board.clientHeight;
 
-        if (board.scrollTop >= board.scrollHeight - board.clientHeight) {
+    if (atBottom) {
+
+        holding = true;
+
+        setTimeout(() => {
             board.scrollTop = 0;
-        }
+            holding = false;
+        }, HOLD_MS);
+
+        return;
 
     }
+
+    board.scrollTop += 1;
 
 }, 50);
 
