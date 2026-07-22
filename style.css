@@ -132,6 +132,13 @@ tr:nth-child(even){
     font-weight:bold;
 }
 
+.airline-logo {
+    height:32px;
+    max-width:120px;
+    object-fit:contain;
+    vertical-align:middle;
+}
+
 footer {
     position:absolute;
     bottom:0;
