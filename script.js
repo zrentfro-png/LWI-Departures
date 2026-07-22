@@ -17,8 +17,77 @@ async function loadFlights(){
         flights.forEach(flight => {
 
 
-            let status = flight["STATUS:"] || "On Time";
+            let status = getStatus(
+    flight["STATUS:"] || "On Time",
+    flight["BOARDING TIME:"],
+    flight["DEPARTURE TIME:"]
+);
 
+            function getStatus(sheetStatus, boardingTime, departureTime){
+
+    // Always respect these manual statuses
+    if(sheetStatus === "Cancelled") return "Cancelled";
+    if(sheetStatus === "Delayed") return "Delayed";
+
+    if(!departureTime) return sheetStatus;
+
+    const now = new Date();
+
+    function parseTime(time){
+
+        if(!time) return null;
+
+        let parts = time.trim().split(" ");
+
+        if(parts.length !== 2) return null;
+
+        let clock = parts[0].split(":");
+
+        let hour = parseInt(clock[0]);
+        let minute = parseInt(clock[1]);
+        let ampm = parts[1].toUpperCase();
+
+        if(ampm === "PM" && hour !== 12) hour += 12;
+        if(ampm === "AM" && hour === 12) hour = 0;
+
+        let d = new Date();
+
+        d.setHours(hour);
+        d.setMinutes(minute);
+        d.setSeconds(0);
+        d.setMilliseconds(0);
+
+        return d;
+    }
+
+    const board = parseTime(boardingTime);
+    const depart = parseTime(departureTime);
+
+    if(!depart) return sheetStatus;
+
+    // 15 minutes after departure = Departed
+    if(now >= new Date(depart.getTime() + 15*60000)){
+        return "Departed";
+    }
+
+    // Departure until 15 minutes after
+    if(now >= depart){
+        return "Departing";
+    }
+
+    // Final Call = 10 minutes before departure
+    if(now >= new Date(depart.getTime() - 10*60000)){
+        return "Final Call";
+    }
+
+    // Boarding = after boarding time
+    if(board && now >= board){
+        return "Boarding";
+    }
+
+    return "On Time";
+
+}
 
             let statusClass = status
                 .replace(/\s+/g, "-")
