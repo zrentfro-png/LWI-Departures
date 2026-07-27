@@ -44,7 +44,7 @@ function isInDisplayWindow(departureTime) {
 // Map each airline name (exactly as it appears in the sheet, lowercase)
 // to a logo file in your /logos folder. Add a new line here every time
 // you add a new logo image. Airlines not listed just show as text.
-const LOGO_VERSION = 2; // bump this number any time you replace a logo image
+const LOGO_VERSION = 5; // bump this number any time you replace a logo image
 const AIRLINE_LOGOS = {
     "united": "logos/united.png",
     "avelo": "logos/avelo.png",
