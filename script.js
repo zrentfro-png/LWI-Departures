@@ -48,7 +48,7 @@ const LOGO_VERSION = 2; // bump this number any time you replace a logo image
 const AIRLINE_LOGOS = {
     "united": "logos/united.png",
     "avelo": "logos/avelo.png",
-    "american": "logos/american.png",
+    "american": "logos/americanaa.png",
     "jetblue": "logos/jetblue.png",
     "alaska": "logos/alaska.png",
     "southwest": "logos/southwest.png",
