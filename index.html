@@ -2,71 +2,99 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Lawrence Wickham International Airport</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css?v=6">
+    <title>
+        Lawrence Wickham International Airport
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="style.css?v=7">
+
 </head>
+
 
 <body>
 
-    <!-- ================================
-         TOP NAVIGATION
-    ================================= -->
 
-    <header class="topbar">
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-        <div class="brand">
+<header class="topbar">
 
-            <div class="airport-mark">
-                LW
-            </div>
+    <div class="brand">
 
-            <div class="airport-name">
-                <strong>LAWRENCE WICKHAM</strong>
-                <span>INTERNATIONAL AIRPORT</span>
-            </div>
+        <div class="airport-mark">
+            LW
+        </div>
+
+
+        <div class="airport-name">
+
+            <strong>
+                LAWRENCE WICKHAM
+            </strong>
+
+            <span>
+                INTERNATIONAL AIRPORT
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <div class="terminal-info">
+
+            <span class="terminal-label">
+                TERMINAL
+            </span>
+
+            <strong>
+                1
+            </strong>
+
+            <span class="gates">
+                Gates A · B
+            </span>
 
         </div>
 
 
-        <div class="header-right">
-
-            <div class="terminal-info">
-
-                <span class="terminal-label">
-                    TERMINAL
-                </span>
-
-                <strong>1</strong>
-
-                <span class="gates">
-                    Gates A · B
-                </span>
-
-            </div>
-
-            <div id="clock">
-                —
-            </div>
-
+        <div id="clock">
+            —
         </div>
 
-    </header>
+    </div>
+
+</header>
 
 
 
-    <!-- ================================
-         SCROLLING PAGE
-    ================================= -->
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
-    <main class="main">
+<main class="main">
 
-        <!-- HERO -->
 
-        <section class="hero">
+    <!-- =================================================
+         FIXED DASHBOARD
+    ================================================== -->
+
+    <section class="dashboard">
+
+
+        <div class="hero">
 
             <div>
 
@@ -74,9 +102,11 @@
                     TODAY'S DEPARTURES
                 </div>
 
+
                 <h1>
                     Good evening.
                 </h1>
+
 
                 <p>
                     Your journey starts here.
@@ -97,15 +127,16 @@
 
             </div>
 
-        </section>
+        </div>
 
 
 
-        <!-- ================================
-             SUMMARY COUNTERS
-        ================================= -->
+        <!-- =================================================
+             ALL-DAY COUNTERS
+        ================================================== -->
 
         <section class="summary">
+
 
             <div class="summary-card">
 
@@ -129,7 +160,9 @@
                 <strong
                     class="green"
                     id="onTimeFlights">
+
                     0
+
                 </strong>
 
             </div>
@@ -144,200 +177,157 @@
                 <strong
                     class="gold"
                     id="delayedFlights">
+
                     0
+
                 </strong>
 
             </div>
 
 
-            <div class="summary-card terminal-card">
+            <div class="summary-card">
 
                 <span class="summary-label">
-                    TERMINAL
+                    CANCELLED
                 </span>
 
-                <strong>
-                    1
+                <strong
+                    class="red"
+                    id="cancelledFlights">
+
+                    0
+
                 </strong>
 
-                <span class="terminal-gates">
-                    Gates A & B
+            </div>
+
+
+            <div class="summary-card">
+
+                <span class="summary-label">
+                    BOARDING NOW
                 </span>
 
-            </div>
+                <strong
+                    class="blue"
+                    id="boardingFlights">
 
-        </section>
+                    0
 
-
-
-        <!-- ================================
-             FLIGHT INFORMATION
-        ================================= -->
-
-        <section class="flight-section">
-
-            <div class="section-heading">
-
-                <div>
-
-                    <span class="eyebrow">
-                        FLIGHT INFORMATION
-                    </span>
-
-                    <h2>
-                        Departures
-                    </h2>
-
-                </div>
-
-
-                <div class="live-indicator">
-
-                    <span class="live-dot"></span>
-
-                    LIVE
-
-                </div>
-
-            </div>
-
-
-            <!-- Flight cards are inserted here -->
-
-            <div
-                id="flights"
-                class="flight-list">
-            </div>
-
-
-            <!-- No flights message -->
-
-            <div
-                id="noFlights"
-                class="no-flights"
-                style="display:none;">
-
-                <div class="no-flights-icon">
-                    ✓
-                </div>
-
-                <strong>
-                    No upcoming departures
                 </strong>
 
-                <span>
-                    There are currently no flights within the displayed departure window.
+            </div>
+
+
+        </section>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SCROLLING FLIGHT AREA
+    ================================================== -->
+
+    <section class="flight-section">
+
+
+        <div class="section-heading">
+
+
+            <div>
+
+                <span class="eyebrow">
+                    FLIGHT INFORMATION
                 </span>
 
-            </div>
-
-        </section>
-
-
-
-        <!-- ================================
-             AIRPORT INFORMATION
-        ================================= -->
-
-        <section class="airport-info">
-
-
-            <div class="info-card">
-
-                <div class="info-icon">
-                    A
-                </div>
-
-                <div>
-
-                    <strong>
-                        Terminal 1
-                    </strong>
-
-                    <span>
-                        Gates A & B
-                    </span>
-
-                </div>
+                <h2>
+                    Departures
+                </h2>
 
             </div>
 
 
-            <div class="info-card">
+            <div class="live-indicator">
 
-                <div class="info-icon">
-                    ↗
-                </div>
+                <span class="live-dot"></span>
 
-                <div>
-
-                    <strong>
-                        Terminal 2
-                    </strong>
-
-                    <span>
-                        Gates C & D · Shuttle outside the Green doors
-                    </span>
-
-                </div>
+                LIVE
 
             </div>
 
 
-            <div class="info-card">
+        </div>
 
-                <div class="info-icon">
-                    i
-                </div>
 
-                <div>
 
-                    <strong>
-                        Airport information
-                    </strong>
+        <!-- FLIGHTS -->
 
-                    <span>
-                        Please allow enough time for security and boarding.
-                    </span>
+        <div
+            id="flights"
+            class="flight-list">
+        </div>
 
-                </div>
 
+
+        <!-- NO FLIGHTS -->
+
+        <div
+            id="noFlights"
+            class="no-flights"
+            style="display:none;">
+
+            <div class="no-flights-icon">
+                ✓
             </div>
 
-        </section>
-
-    </main>
-
-
-
-    <!-- ================================
-         FOOTER
-    ================================= -->
-
-    <footer>
-
-        <div class="footer-left">
-
-            <span class="footer-mark">
-                LW
-            </span>
+            <strong>
+                No upcoming departures
+            </strong>
 
             <span>
-                Lawrence Wickham International Airport
+                There are currently no flights
+                within the displayed departure window.
             </span>
 
         </div>
 
 
-        <span class="footer-message">
-            Terminal 1 · Gates A & B
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <div class="footer-left">
+
+        <span class="footer-mark">
+            LW
         </span>
 
-    </footer>
+        <span>
+            Lawrence Wickham International Airport
+        </span>
+
+    </div>
+
+
+    <span class="footer-message">
+        Terminal 1 · Gates A & B
+    </span>
+
+</footer>
 
 
 
-    <script src="script.js?v=6"></script>
+<script src="script.js?v=7"></script>
 
 </body>
 
