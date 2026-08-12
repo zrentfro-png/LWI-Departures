@@ -1,550 +1,1226 @@
-/* =========================================
-   GLOBAL
-========================================= */
+/* =====================================================
+   LAWRENCE WICKHAM INTERNATIONAL AIRPORT
+   MODERN / PREMIUM DESIGN
+===================================================== */
+
 
 * {
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    background: #f4f5f3;
-    color: #202321;
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-    overflow: hidden;
+
+:root {
+
+    --background: #f5f6f3;
+
+    --surface: #ffffff;
+
+    --surface-soft: #f9faf8;
+
+    --text: #1c211e;
+
+    --muted: #7a817b;
+
+    --border: #e6e9e5;
+
+    --gold: #c6a84a;
+
+    --green: #278457;
+
+    --yellow: #b38320;
+
+    --red: #c94b50;
+
+    --shadow:
+        0 8px 30px rgba(27, 33, 29, 0.055);
+
 }
 
 
-/* =========================================
-   HEADER
-========================================= */
+body {
 
-header {
-    height: 112px;
-    background: rgba(255, 255, 255, 0.94);
+    margin: 0;
+
+    background:
+        radial-gradient(
+            circle at 20% 0%,
+            #ffffff 0,
+            #f5f6f3 38%,
+            #eef0ec 100%
+        );
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    min-height: 100vh;
+
+}
+
+
+/* =====================================================
+   TOP BAR
+===================================================== */
+
+
+.topbar {
+
+    height: 92px;
+
+    background: rgba(255,255,255,0.88);
+
+    border-bottom: 1px solid var(--border);
 
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
+
+    justify-content: space-between;
 
     padding: 0 48px;
 
-    border-bottom: 1px solid #e4e6e3;
+    position: sticky;
 
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.04),
-        0 12px 35px rgba(0, 0, 0, 0.035);
+    top: 0;
 
-    position: relative;
-    z-index: 10;
+    z-index: 100;
 
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(20px);
+
 }
 
 
-/* subtle quartz-style accent */
+.brand {
 
-header::after {
-    content: "";
+    display: flex;
 
-    position: absolute;
-    bottom: 0;
-    left: 48px;
-    right: 48px;
+    align-items: center;
 
-    height: 2px;
+    gap: 14px;
 
-    background: linear-gradient(
-        90deg,
-        transparent,
-        #d5b84a 20%,
-        #e4c95b 50%,
-        #d5b84a 80%,
-        transparent
-    );
-
-    opacity: 0.75;
 }
 
 
-/* =========================================
-   AIRPORT TITLE
-========================================= */
+.airport-mark {
 
-h1 {
-    margin: 0;
+    width: 42px;
 
-    font-size: 34px;
+    height: 42px;
+
+    border-radius: 12px;
+
+    background: #202521;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 13px;
+
     font-weight: 700;
 
-    letter-spacing: -0.8px;
+    letter-spacing: 1px;
 
-    color: #191c1a;
-}
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.12);
 
-h2 {
-    margin: 7px 0 0;
-
-    color: #777d78;
-
-    font-size: 16px;
-    font-weight: 500;
-
-    letter-spacing: 0.2px;
 }
 
 
-/* =========================================
-   CLOCK
-========================================= */
+.airport-name {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 2px;
+
+}
+
+
+.airport-name strong {
+
+    font-size: 14px;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+.airport-name span {
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+
+}
+
+
+.header-right {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 32px;
+
+}
+
+
+.terminal-info {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+}
+
+
+.terminal-label {
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+    color: var(--muted);
+
+}
+
+
+.terminal-info strong {
+
+    font-size: 18px;
+
+}
+
+
+.gates {
+
+    font-size: 12px;
+
+    color: var(--muted);
+
+}
+
 
 #clock {
-    font-size: 34px;
+
+    font-size: 24px;
 
     font-weight: 600;
 
     letter-spacing: -0.5px;
 
-    color: #252825;
 }
 
 
-/* =========================================
-   BOARD
-========================================= */
+/* =====================================================
+   MAIN
+===================================================== */
 
-.board {
-    height: calc(100vh - 172px);
 
-    overflow-y: auto;
+.main {
 
-    padding: 30px 48px 85px;
+    max-width: 1450px;
+
+    margin: auto;
+
+    padding: 55px 48px 120px;
+
 }
 
 
-/* =========================================
-   TABLE
-========================================= */
+/* =====================================================
+   HERO
+===================================================== */
 
-table {
-    width: 100%;
 
-    border-collapse: separate;
+.hero {
 
-    border-spacing: 0 10px;
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-bottom: 35px;
+
 }
 
 
-/* =========================================
-   TABLE HEADER
-========================================= */
+.eyebrow {
 
-thead {
-    position: sticky;
+    font-size: 11px;
 
-    top: 0;
+    font-weight: 700;
 
-    z-index: 5;
+    letter-spacing: 2px;
+
+    color: var(--muted);
+
 }
 
-th {
-    background: transparent;
 
-    color: #858b86;
+.hero h1 {
 
-    font-size: 12px;
+    margin: 12px 0 5px;
+
+    font-size: 48px;
+
+    line-height: 1;
+
+    letter-spacing: -2px;
 
     font-weight: 650;
 
-    padding: 12px 20px;
+}
 
-    text-align: left;
 
-    text-transform: uppercase;
+.hero p {
 
-    letter-spacing: 1.2px;
+    margin: 0;
+
+    color: var(--muted);
+
+    font-size: 18px;
+
+}
+
+
+.hero-date {
+
+    display: flex;
+
+    flex-direction: column;
+
+    text-align: right;
+
+    gap: 6px;
+
+}
+
+
+.hero-date span {
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+    color: var(--muted);
+
+}
+
+
+.hero-date strong {
+
+    font-size: 17px;
+
+}
+
+
+/* =====================================================
+   SUMMARY
+===================================================== */
+
+
+.summary {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 14px;
+
+    margin-bottom: 55px;
+
+}
+
+
+.summary-card {
+
+    background: rgba(255,255,255,.9);
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    padding: 24px 25px;
+
+    box-shadow: var(--shadow);
+
+    min-height: 115px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+}
+
+
+.summary-label {
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+    font-weight: 700;
+
+    color: var(--muted);
+
+}
+
+
+.summary-card strong {
+
+    font-size: 31px;
+
+    letter-spacing: -1px;
+
+}
+
+
+.summary-card .green {
+
+    color: var(--green);
+
+}
+
+
+.summary-card .gold {
+
+    color: var(--yellow);
+
+}
+
+
+.terminal-card {
+
+    background:
+        linear-gradient(
+            135deg,
+            #252a26,
+            #181c19
+        );
+
+    color: white;
 
     border: none;
+
 }
 
 
-/* =========================================
-   FLIGHT ROWS
-========================================= */
+.terminal-card .summary-label {
 
-td {
-    padding: 19px 20px;
+    color: #aeb5af;
 
-    font-size: 19px;
-
-    font-weight: 500;
-
-    color: #292d2a;
-
-    background: #ffffff;
-
-    border-top: 1px solid #e8eae7;
-    border-bottom: 1px solid #e8eae7;
-
-    transition:
-        background 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
 }
 
 
-/* rounded left side */
+.terminal-gates {
 
-tr td:first-child {
-    border-left: 1px solid #e8eae7;
+    color: #aeb5af;
 
-    border-radius: 14px 0 0 14px;
+    font-size: 12px;
+
 }
 
 
-/* rounded right side */
+/* =====================================================
+   FLIGHT SECTION
+===================================================== */
 
-tr td:last-child {
-    border-right: 1px solid #e8eae7;
 
-    border-radius: 0 14px 14px 0;
+.flight-section {
+
+    margin-bottom: 45px;
+
 }
 
 
-/* =========================================
-   ROW HOVER
-========================================= */
+.section-heading {
 
-tbody tr {
-    transition:
-        transform 0.2s ease,
-        filter 0.2s ease;
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    margin-bottom: 18px;
+
 }
 
-tbody tr:hover {
-    transform: translateY(-2px);
+
+.section-heading h2 {
+
+    margin: 8px 0 0;
+
+    font-size: 30px;
+
+    letter-spacing: -1px;
+
 }
 
-tbody tr:hover td {
-    background: #fcfcfb;
+
+.live-indicator {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+    font-weight: 700;
+
+    color: var(--green);
+
+}
+
+
+.live-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--green);
 
     box-shadow:
-        0 8px 25px rgba(0, 0, 0, 0.06);
+        0 0 0 4px rgba(39,132,87,.1);
+
 }
 
 
-/* =========================================
-   AIRLINE LOGOS
-========================================= */
+/* =====================================================
+   FLIGHT LIST
+===================================================== */
+
+
+.flight-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+/* =====================================================
+   FLIGHT CARD
+
+   Your JavaScript can create elements
+   inside #flights.
+===================================================== */
+
+
+.flight-card {
+
+    background: rgba(255,255,255,.94);
+
+    border: 1px solid var(--border);
+
+    border-radius: 17px;
+
+    min-height: 88px;
+
+    padding: 17px 22px;
+
+    display: grid;
+
+    grid-template-columns:
+        1.2fr
+        .7fr
+        1.7fr
+        .7fr
+        1fr
+        1fr;
+
+    align-items: center;
+
+    gap: 18px;
+
+    box-shadow:
+        0 4px 18px rgba(28,33,30,.035);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease;
+
+}
+
+
+.flight-card:hover {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(28,33,30,.08);
+
+    border-color: #d9ddd8;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   FLIGHT AIRLINE
+===================================================== */
+
+
+.flight-airline {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+}
+
 
 .airline-logo {
-    height: 40px;
 
-    max-width: 125px;
+    height: 38px;
+
+    max-width: 105px;
 
     object-fit: contain;
 
-    vertical-align: middle;
 }
 
 
-/* =========================================
+.airline-name {
+
+    font-size: 12px;
+
+    color: var(--muted);
+
+}
+
+
+/* =====================================================
+   FLIGHT NUMBER
+===================================================== */
+
+
+.flight-number {
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   DESTINATION
+===================================================== */
+
+
+.destination {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.destination-main {
+
+    font-size: 17px;
+
+    font-weight: 650;
+
+}
+
+
+.destination-code {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* =====================================================
+   GATE
+===================================================== */
+
+
+.flight-gate {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.flight-gate span {
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    letter-spacing: 1.3px;
+
+}
+
+
+.flight-gate strong {
+
+    font-size: 16px;
+
+}
+
+
+/* =====================================================
+   TIMES
+===================================================== */
+
+
+.flight-time {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.flight-time span {
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    letter-spacing: 1.2px;
+
+}
+
+
+.flight-time strong {
+
+    font-size: 15px;
+
+}
+
+
+/* =====================================================
    STATUS
-========================================= */
+===================================================== */
+
 
 .status {
+
     display: inline-flex;
 
     align-items: center;
 
     justify-content: center;
 
-    min-width: 108px;
+    width: fit-content;
 
-    padding: 7px 14px;
+    padding: 7px 12px;
 
     border-radius: 999px;
 
-    font-size: 12px;
+    font-size: 10px;
 
-    font-weight: 700;
+    font-weight: 750;
 
-    letter-spacing: 0.5px;
+    letter-spacing: .7px;
 
-    text-transform: uppercase;
-
-    border: 1px solid transparent;
 }
 
 
-/* =========================================
-   ON TIME
-========================================= */
+/* ON TIME */
 
 .ON-TIME {
-    color: #197a4b;
 
-    background: #edf8f1;
+    color: #23764d;
 
-    border-color: #d1efdc;
+    background: #eaf6ef;
+
 }
 
 
-/* =========================================
-   BOARDING
-========================================= */
+/* BOARDING */
 
 .BOARDING {
-    color: #856d00;
 
-    background: #fff8dc;
+    color: #8b710e;
 
-    border-color: #f1e5a9;
+    background: #fff7d9;
+
 }
 
 
-/* =========================================
-   FINAL CALL
-========================================= */
+/* FINAL CALL */
 
 .FINAL-CALL {
-    color: #a35b16;
 
-    background: #fff1df;
+    color: #a75d16;
 
-    border-color: #f5d7b0;
+    background: #fff0df;
+
 }
 
 
-/* =========================================
-   DEPARTING
-========================================= */
+/* DEPARTING */
 
 .DEPARTING {
-    color: #256da5;
 
-    background: #edf6fd;
+    color: #286c9d;
 
-    border-color: #d0e7f7;
+    background: #eaf5fc;
+
 }
 
 
-/* =========================================
-   DEPARTED
-========================================= */
+/* DEPARTED */
 
 .DEPARTED {
+
     color: #737873;
 
-    background: #f1f2f1;
+    background: #eff1ef;
 
-    border-color: #e0e2df;
 }
 
 
-/* =========================================
-   DELAYED
-========================================= */
+/* DELAYED */
 
 .DELAYED {
-    color: #a56200;
 
-    background: #fff4df;
+    color: #a26708;
 
-    border-color: #f2dfb8;
+    background: #fff3dc;
+
 }
 
 
-/* =========================================
-   CANCELLED
-========================================= */
+/* CANCELLED */
 
 .CANCELLED {
-    color: #b13c42;
 
-    background: #fff0f1;
+    color: #b74349;
 
-    border-color: #f1d1d4;
+    background: #ffedef;
+
 }
 
 
-/* =========================================
-   FOOTER
-========================================= */
+/* =====================================================
+   AIRPORT INFORMATION
+===================================================== */
 
-footer {
-    position: fixed;
 
-    bottom: 0;
-    left: 0;
+.airport-info {
 
-    height: 60px;
+    display: grid;
 
-    width: 100%;
+    grid-template-columns:
+        repeat(3, 1fr);
 
-    background: rgba(255, 255, 255, 0.96);
+    gap: 12px;
 
-    border-top: 1px solid #e2e4e1;
+}
+
+
+.info-card {
+
+    background: rgba(255,255,255,.7);
+
+    border: 1px solid var(--border);
+
+    border-radius: 16px;
+
+    padding: 19px;
 
     display: flex;
 
     align-items: center;
 
+    gap: 13px;
+
+}
+
+
+.info-icon {
+
+    width: 36px;
+
+    height: 36px;
+
+    border-radius: 10px;
+
+    background: #eef0ed;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-weight: 700;
+
+    color: #4d544e;
+
+}
+
+
+.info-card div:last-child {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+}
+
+
+.info-card strong {
+
+    font-size: 13px;
+
+}
+
+
+.info-card span {
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+
+footer {
+
+    position: fixed;
+
+    bottom: 0;
+
+    left: 0;
+
+    right: 0;
+
+    height: 55px;
+
+    background: rgba(255,255,255,.92);
+
+    border-top: 1px solid var(--border);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
     padding: 0 48px;
 
-    font-size: 14px;
+    color: var(--muted);
 
-    font-weight: 500;
+    font-size: 11px;
 
-    color: #777d78;
+    backdrop-filter: blur(15px);
 
-    z-index: 20;
-
-    box-shadow:
-        0 -5px 20px rgba(0, 0, 0, 0.035);
-
-    backdrop-filter: blur(10px);
 }
 
 
-/* =========================================
+.footer-left {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.footer-mark {
+
+    width: 25px;
+
+    height: 25px;
+
+    border-radius: 7px;
+
+    background: #202521;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+}
+
+
+.footer-message {
+
+    color: #8a908b;
+
+}
+
+
+/* =====================================================
    SCROLLBAR
-========================================= */
+===================================================== */
 
-.board::-webkit-scrollbar {
-    width: 8px;
+
+body::-webkit-scrollbar {
+
+    width: 7px;
+
 }
 
-.board::-webkit-scrollbar-track {
+
+body::-webkit-scrollbar-track {
+
     background: transparent;
+
 }
 
-.board::-webkit-scrollbar-thumb {
-    background: #d0d4d0;
+
+body::-webkit-scrollbar-thumb {
+
+    background: #cdd2cd;
 
     border-radius: 20px;
-}
 
-.board::-webkit-scrollbar-thumb:hover {
-    background: #b8bdb8;
 }
 
 
-/* =========================================
+/* =====================================================
    RESPONSIVE
-========================================= */
+===================================================== */
 
-@media (max-width: 900px) {
 
-    header {
-        height: 92px;
+@media (max-width: 1100px) {
 
-        padding: 0 22px;
+    .main {
+
+        padding-left: 28px;
+
+        padding-right: 28px;
+
     }
 
-    header::after {
-        left: 22px;
-        right: 22px;
+
+    .topbar {
+
+        padding: 0 28px;
+
     }
 
-    h1 {
-        font-size: 27px;
+
+    .summary {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
     }
 
-    h2 {
-        font-size: 14px;
+
+    .flight-card {
+
+        grid-template-columns:
+            1.2fr
+            .7fr
+            1.5fr
+            .7fr
+            1fr
+            .9fr;
+
     }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .topbar {
+
+        height: 78px;
+
+        padding: 0 18px;
+
+    }
+
+
+    .airport-name strong {
+
+        font-size: 11px;
+
+    }
+
+
+    .airport-name span {
+
+        font-size: 8px;
+
+    }
+
+
+    .airport-mark {
+
+        width: 36px;
+
+        height: 36px;
+
+    }
+
+
+    .terminal-info {
+
+        display: none;
+
+    }
+
 
     #clock {
-        font-size: 27px;
+
+        font-size: 19px;
+
     }
 
-    .board {
-        height: calc(100vh - 152px);
 
-        padding: 20px 18px 75px;
+    .main {
+
+        padding: 35px 16px 100px;
+
     }
 
-    th {
-        font-size: 11px;
 
-        padding: 10px 12px;
+    .hero {
+
+        align-items: flex-start;
+
+        gap: 25px;
+
     }
 
-    td {
-        font-size: 16px;
 
-        padding: 15px 12px;
+    .hero h1 {
+
+        font-size: 37px;
+
     }
 
-    .airline-logo {
-        height: 32px;
 
-        max-width: 95px;
+    .hero-date {
+
+        display: none;
+
     }
 
-    .status {
-        min-width: 92px;
 
-        padding: 6px 10px;
+    .summary {
 
-        font-size: 11px;
+        gap: 9px;
+
     }
+
+
+    .summary-card {
+
+        padding: 18px;
+
+        min-height: 100px;
+
+    }
+
+
+    .summary-card strong {
+
+        font-size: 25px;
+
+    }
+
+
+    .airport-info {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .flight-card {
+
+        grid-template-columns:
+            1fr
+            1fr
+            1fr;
+
+        gap: 14px;
+
+        padding: 18px;
+
+    }
+
 
     footer {
-        padding: 0 20px;
 
-        font-size: 13px;
-    }
-}
+        padding: 0 18px;
 
-
-/* =========================================
-   SMALL SCREENS
-========================================= */
-
-@media (max-width: 600px) {
-
-    header {
-        padding: 0 16px;
     }
 
-    header::after {
-        left: 16px;
-        right: 16px;
+
+    .footer-message {
+
+        display: none;
+
     }
 
-    h1 {
-        font-size: 22px;
-    }
-
-    h2 {
-        font-size: 12px;
-    }
-
-    #clock {
-        font-size: 21px;
-    }
-
-    .board {
-        padding: 15px 10px 70px;
-    }
-
-    th {
-        padding: 8px;
-
-        font-size: 10px;
-    }
-
-    td {
-        padding: 13px 8px;
-
-        font-size: 14px;
-    }
-
-    .airline-logo {
-        max-width: 75px;
-
-        height: 28px;
-    }
 }
