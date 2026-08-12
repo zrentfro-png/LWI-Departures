@@ -13,7 +13,7 @@ const API =
 
 
 /* =====================================================
-   DISPLAY SETTINGS
+   SETTINGS
 ===================================================== */
 
 const FALL_OFF_MS =
@@ -24,6 +24,9 @@ const LOOK_AHEAD_MS =
 
 const REFRESH_MS =
     15 * 1000;
+
+const HOLD_MS =
+    4000;
 
 
 /* =====================================================
@@ -72,7 +75,6 @@ const AIRLINE_LOGOS = {
 
     "hawaiian":
         "logos/hawaiian.png"
-
 };
 
 
@@ -108,12 +110,11 @@ const MANUAL_STATUSES = {
 
     "diverted":
         "Diverted"
-
 };
 
 
 /* =====================================================
-   PARSE TIME
+   TIME PARSER
 ===================================================== */
 
 function parseTime(time) {
@@ -165,6 +166,7 @@ function parseTime(time) {
     const date =
         new Date();
 
+
     date.setHours(
         hour,
         minute,
@@ -189,11 +191,6 @@ function isInDisplayWindow(
         parseTime(departureTime);
 
 
-    /*
-       If the time cannot be understood,
-       keep the flight visible.
-    */
-
     if (!departure) {
         return true;
     }
@@ -208,64 +205,6 @@ function isInDisplayWindow(
         difference >= -FALL_OFF_MS &&
         difference <= LOOK_AHEAD_MS
     );
-}
-
-
-/* =====================================================
-   AIRLINE RENDERING
-===================================================== */
-
-function renderAirline(
-    airlineName
-) {
-
-    const name =
-        String(airlineName || "")
-            .trim();
-
-
-    const key =
-        name.toLowerCase();
-
-
-    const logo =
-        AIRLINE_LOGOS[key];
-
-
-    if (!logo) {
-
-        return `
-            <div class="airline-name">
-                ${escapeHTML(name)}
-            </div>
-        `;
-    }
-
-
-    return `
-
-        <img
-            src="${logo}?v=${LOGO_VERSION}"
-            alt="${escapeHTML(name)}"
-            class="airline-logo"
-        >
-
-    `;
-}
-
-
-/* =====================================================
-   HTML ESCAPING
-===================================================== */
-
-function escapeHTML(value) {
-
-    return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
 }
 
 
@@ -288,9 +227,7 @@ function getStatus(
         raw.toLowerCase();
 
 
-    /*
-       MANUAL STATUS OVERRIDE
-    */
+    /* MANUAL OVERRIDE */
 
     if (
         key &&
@@ -302,9 +239,7 @@ function getStatus(
     }
 
 
-    /*
-       AUTOMATIC STATUS
-    */
+    /* AUTOMATIC */
 
     if (!departureTime) {
         return "On Time";
@@ -326,12 +261,6 @@ function getStatus(
     if (!departure) {
         return "On Time";
     }
-
-
-    const boardingTimeMs =
-        boarding
-            ? boarding.getTime()
-            : null;
 
 
     const finalCallTime =
@@ -374,7 +303,7 @@ function getStatus(
     if (
         boarding &&
         now.getTime() >=
-        boardingTimeMs
+        boarding.getTime()
     ) {
 
         return "Boarding";
@@ -386,153 +315,129 @@ function getStatus(
 
 
 /* =====================================================
-   STATUS CSS CLASS
+   HTML ESCAPE
+===================================================== */
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+
+/* =====================================================
+   AIRLINE
+===================================================== */
+
+function renderAirline(
+    airlineName
+) {
+
+    const name =
+        String(airlineName || "")
+            .trim();
+
+
+    const key =
+        name.toLowerCase();
+
+
+    const logo =
+        AIRLINE_LOGOS[key];
+
+
+    if (!logo) {
+
+        return `
+            <div class="airline-name">
+                ${escapeHTML(name)}
+            </div>
+        `;
+    }
+
+
+    return `
+
+        <img
+            src="${logo}?v=${LOGO_VERSION}"
+            alt="${escapeHTML(name)}"
+            class="airline-logo">
+
+    `;
+}
+
+
+/* =====================================================
+   STATUS CLASS
 ===================================================== */
 
 function getStatusClass(status) {
 
     return String(status)
+
         .trim()
-        .replace(/\s+/g, "-")
+
+        .replace(
+            /\s+/g,
+            "-"
+        )
+
         .toUpperCase();
 }
 
 
 /* =====================================================
-   UPDATE CLOCK
-===================================================== */
-
-function updateClock() {
-
-    const clock =
-        document.getElementById("clock");
-
-
-    if (!clock) {
-        return;
-    }
-
-
-    clock.textContent =
-        new Date().toLocaleTimeString(
-            [],
-            {
-                hour: "numeric",
-                minute: "2-digit"
-            }
-        );
-}
-
-
-/* =====================================================
-   UPDATE DATE
-===================================================== */
-
-function updateDate() {
-
-    const today =
-        document.getElementById("today");
-
-
-    if (!today) {
-        return;
-    }
-
-
-    today.textContent =
-        new Date().toLocaleDateString(
-            [],
-            {
-                weekday: "long",
-                month: "long",
-                day: "numeric"
-            }
-        );
-}
-
-
-/* =====================================================
-   UPDATE HERO GREETING
-===================================================== */
-
-function updateGreeting() {
-
-    const heading =
-        document.querySelector(
-            ".hero h1"
-        );
-
-
-    if (!heading) {
-        return;
-    }
-
-
-    const hour =
-        new Date().getHours();
-
-
-    if (hour < 12) {
-
-        heading.textContent =
-            "Good morning.";
-
-    } else if (hour < 17) {
-
-        heading.textContent =
-            "Good afternoon.";
-
-    } else {
-
-        heading.textContent =
-            "Good evening.";
-    }
-}
-
-
-/* =====================================================
-   UPDATE COUNTERS
+   UPDATE ALL-DAY COUNTERS
 ===================================================== */
 
 function updateCounters(
     flights
 ) {
 
-    const totalElement =
-        document.getElementById(
-            "totalFlights"
-        );
-
-
-    const onTimeElement =
-        document.getElementById(
-            "onTimeFlights"
-        );
-
-
-    const delayedElement =
-        document.getElementById(
-            "delayedFlights"
-        );
-
-
-    /*
-       TOTAL
-    */
-
-    const total =
+    let total =
         flights.length;
-
-
-    /*
-       Calculate statuses using
-       the exact same logic used
-       to display the cards.
-    */
 
     let onTime = 0;
 
     let delayed = 0;
+
+    let cancelled = 0;
+
+    let boarding = 0;
+
+
+    /*
+       IMPORTANT:
+
+       We use the ENTIRE flights array here.
+
+       We do NOT use the rolling
+       display window.
+    */
 
 
     flights.forEach(
@@ -569,8 +474,56 @@ function updateCounters(
                 delayed++;
             }
 
+
+            if (
+                normalized ===
+                "cancelled"
+            ) {
+
+                cancelled++;
+            }
+
+
+            if (
+                normalized ===
+                "boarding"
+            ) {
+
+                boarding++;
+            }
+
         }
     );
+
+
+    const totalElement =
+        document.getElementById(
+            "totalFlights"
+        );
+
+
+    const onTimeElement =
+        document.getElementById(
+            "onTimeFlights"
+        );
+
+
+    const delayedElement =
+        document.getElementById(
+            "delayedFlights"
+        );
+
+
+    const cancelledElement =
+        document.getElementById(
+            "cancelledFlights"
+        );
+
+
+    const boardingElement =
+        document.getElementById(
+            "boardingFlights"
+        );
 
 
     if (totalElement) {
@@ -591,6 +544,20 @@ function updateCounters(
 
         delayedElement.textContent =
             delayed;
+    }
+
+
+    if (cancelledElement) {
+
+        cancelledElement.textContent =
+            cancelled;
+    }
+
+
+    if (boardingElement) {
+
+        boardingElement.textContent =
+            boarding;
     }
 }
 
@@ -631,24 +598,9 @@ function createFlightCard(
         flight["GATE:"] || "—";
 
 
-    const boarding =
-        flight["BOARDING TIME:"] || "—";
-
-
     const departure =
         flight["DEPARTURE TIME:"] || "—";
 
-
-    /*
-       Try to create a cleaner destination display.
-
-       If the sheet contains something like:
-       "Dallas (DFW)"
-
-       the code will be separated.
-
-       Otherwise the whole destination stays together.
-    */
 
     let destinationName =
         String(destination);
@@ -658,42 +610,40 @@ function createFlightCard(
         "";
 
 
-    const destinationMatch =
+    /*
+       Supports:
+       Dallas (DFW)
+       Kansas City (MCI)
+       Denver - DEN
+    */
+
+    const match =
         destinationName.match(
             /^(.*?)[\s\-]*\(([A-Za-z0-9]{3,4})\)$/
         );
 
 
-    if (destinationMatch) {
+    if (match) {
 
         destinationName =
-            destinationMatch[1].trim();
+            match[1].trim();
 
         destinationCode =
-            destinationMatch[2].toUpperCase();
+            match[2].toUpperCase();
     }
 
 
     const card =
-        document.createElement("article");
+        document.createElement(
+            "article"
+        );
 
 
     card.className =
         "flight-card";
 
 
-    /*
-       Store flight number so we can
-       make the card clickable later.
-    */
-
-    card.dataset.flight =
-        flightNumber;
-
-
     card.innerHTML = `
-
-        <!-- AIRLINE -->
 
         <div class="flight-airline">
 
@@ -702,22 +652,22 @@ function createFlightCard(
         </div>
 
 
-        <!-- FLIGHT -->
-
         <div class="flight-number">
 
-            ${escapeHTML(flightNumber)}
+            ${escapeHTML(
+                flightNumber
+            )}
 
         </div>
 
-
-        <!-- DESTINATION -->
 
         <div class="destination">
 
             <div class="destination-main">
 
-                ${escapeHTML(destinationName)}
+                ${escapeHTML(
+                    destinationName
+                )}
 
             </div>
 
@@ -725,7 +675,9 @@ function createFlightCard(
                 destinationCode
                     ? `
                         <div class="destination-code">
-                            ${escapeHTML(destinationCode)}
+                            ${escapeHTML(
+                                destinationCode
+                            )}
                         </div>
                     `
                     : ""
@@ -733,8 +685,6 @@ function createFlightCard(
 
         </div>
 
-
-        <!-- GATE -->
 
         <div class="flight-gate">
 
@@ -749,8 +699,6 @@ function createFlightCard(
         </div>
 
 
-        <!-- DEPARTURE -->
-
         <div class="flight-time">
 
             <span>
@@ -763,8 +711,6 @@ function createFlightCard(
 
         </div>
 
-
-        <!-- STATUS -->
 
         <div class="flight-status">
 
@@ -796,7 +742,8 @@ async function loadFlights() {
             await fetch(
                 API,
                 {
-                    cache: "no-store"
+                    cache:
+                        "no-store"
                 }
             );
 
@@ -813,48 +760,47 @@ async function loadFlights() {
             await response.json();
 
 
-        /*
-           Make sure we actually
-           received an array.
-        */
-
-        if (!Array.isArray(flights)) {
+        if (
+            !Array.isArray(flights)
+        ) {
 
             throw new Error(
-                "API did not return an array"
+                "Google Sheet API did not return an array."
             );
         }
 
 
         /*
-           Apply the rolling display
-           window.
+           ================================================
+           ALL-DAY COUNTERS
+
+           This receives ALL flights.
+           ================================================
+        */
+
+        updateCounters(
+            flights
+        );
+
+
+        /*
+           ================================================
+           ROLLING DISPLAY
+
+           Only this portion is filtered.
+           ================================================
         */
 
         const visibleFlights =
             flights.filter(
                 flight =>
                     isInDisplayWindow(
-                        flight["DEPARTURE TIME:"]
+                        flight[
+                            "DEPARTURE TIME:"
+                        ]
                     )
             );
 
-
-        /*
-           UPDATE COUNTERS
-
-           These count the flights
-           currently being displayed.
-        */
-
-        updateCounters(
-            visibleFlights
-        );
-
-
-        /*
-           FIND BOARD
-        */
 
         const board =
             document.getElementById(
@@ -873,52 +819,38 @@ async function loadFlights() {
         }
 
 
-        /*
-           Clear old cards.
-        */
-
         board.innerHTML = "";
 
-
-        /*
-           NO FLIGHTS
-        */
 
         if (
             visibleFlights.length === 0
         ) {
 
             if (noFlights) {
+
                 noFlights.style.display =
                     "flex";
             }
 
             return;
-
-        } else {
-
-            if (noFlights) {
-                noFlights.style.display =
-                    "none";
-            }
-
         }
 
 
-        /*
-           CREATE CARDS
-        */
+        if (noFlights) {
+
+            noFlights.style.display =
+                "none";
+        }
+
 
         visibleFlights.forEach(
             flight => {
 
-                const card =
+                board.appendChild(
                     createFlightCard(
                         flight
-                    );
-
-
-                board.appendChild(card);
+                    )
+                );
 
             }
         );
@@ -936,36 +868,121 @@ async function loadFlights() {
 
 
 /* =====================================================
+   CLOCK
+===================================================== */
+
+function updateClock() {
+
+    const clock =
+        document.getElementById(
+            "clock"
+        );
+
+
+    if (!clock) {
+        return;
+    }
+
+
+    clock.textContent =
+        new Date().toLocaleTimeString(
+            [],
+            {
+                hour: "numeric",
+                minute: "2-digit"
+            }
+        );
+}
+
+
+/* =====================================================
+   DATE
+===================================================== */
+
+function updateDate() {
+
+    const element =
+        document.getElementById(
+            "today"
+        );
+
+
+    if (!element) {
+        return;
+    }
+
+
+    element.textContent =
+        new Date().toLocaleDateString(
+            [],
+            {
+                weekday: "long",
+                month: "long",
+                day: "numeric"
+            }
+        );
+}
+
+
+/* =====================================================
+   GREETING
+===================================================== */
+
+function updateGreeting() {
+
+    const heading =
+        document.querySelector(
+            ".hero h1"
+        );
+
+
+    if (!heading) {
+        return;
+    }
+
+
+    const hour =
+        new Date().getHours();
+
+
+    if (hour < 12) {
+
+        heading.textContent =
+            "Good morning.";
+
+    } else if (hour < 17) {
+
+        heading.textContent =
+            "Good afternoon.";
+
+    } else {
+
+        heading.textContent =
+            "Good evening.";
+    }
+}
+
+
+/* =====================================================
    AUTO SCROLL
 ===================================================== */
 
-let autoScroll =
-    true;
+let autoScroll = true;
 
-let holding =
-    false;
+let holding = false;
 
-let scrollTimer =
-    null;
-
-const HOLD_MS =
-    4000;
+let scrollTimeout = null;
 
 
-/*
-   The new design uses .main
-   as the scrolling container.
-*/
-
-const scrollArea =
+const flightList =
     document.querySelector(
-        ".main"
+        ".flight-list"
     );
 
 
 function startAutoScroll() {
 
-    if (!scrollArea) {
+    if (!flightList) {
         return;
     }
 
@@ -977,14 +994,15 @@ function startAutoScroll() {
                 !autoScroll ||
                 holding
             ) {
+
                 return;
             }
 
 
             const atBottom =
-                scrollArea.scrollTop >=
-                scrollArea.scrollHeight -
-                scrollArea.clientHeight -
+                flightList.scrollTop >=
+                flightList.scrollHeight -
+                flightList.clientHeight -
                 2;
 
 
@@ -996,9 +1014,10 @@ function startAutoScroll() {
                 setTimeout(
                     () => {
 
-                        scrollArea.scrollTo({
+                        flightList.scrollTo({
                             top: 0,
-                            behavior: "smooth"
+                            behavior:
+                                "smooth"
                         });
 
 
@@ -1013,8 +1032,7 @@ function startAutoScroll() {
             }
 
 
-            scrollArea.scrollTop +=
-                1;
+            flightList.scrollTop += 1;
 
         },
         60
@@ -1023,12 +1041,12 @@ function startAutoScroll() {
 
 
 /* =====================================================
-   PAUSE AUTO SCROLL WHEN USER INTERACTS
+   PAUSE AUTO SCROLL WHEN USER USES LIST
 ===================================================== */
 
-if (scrollArea) {
+if (flightList) {
 
-    scrollArea.addEventListener(
+    flightList.addEventListener(
         "wheel",
         () => {
 
@@ -1036,11 +1054,11 @@ if (scrollArea) {
 
 
             clearTimeout(
-                scrollTimer
+                scrollTimeout
             );
 
 
-            scrollTimer =
+            scrollTimeout =
                 setTimeout(
                     () => {
 
@@ -1054,14 +1072,14 @@ if (scrollArea) {
     );
 
 
-    scrollArea.addEventListener(
+    flightList.addEventListener(
         "touchstart",
         () => {
 
             autoScroll = false;
 
             clearTimeout(
-                scrollTimer
+                scrollTimeout
             );
 
         },
@@ -1071,16 +1089,16 @@ if (scrollArea) {
     );
 
 
-    scrollArea.addEventListener(
+    flightList.addEventListener(
         "touchend",
         () => {
 
             clearTimeout(
-                scrollTimer
+                scrollTimeout
             );
 
 
-            scrollTimer =
+            scrollTimeout =
                 setTimeout(
                     () => {
 
@@ -1092,12 +1110,11 @@ if (scrollArea) {
 
         }
     );
-
 }
 
 
 /* =====================================================
-   START EVERYTHING
+   START
 ===================================================== */
 
 updateClock();
