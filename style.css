@@ -1,153 +1,353 @@
-body {
-    margin:0;
-    background:#020202;
-    color:white;
-    font-family:Arial, Helvetica, sans-serif;
-    overflow:auto;
+/* ================================
+   GLOBAL
+================================ */
+
+* {
+    box-sizing: border-box;
 }
 
+body {
+    margin: 0;
+    background: #07090c;
+    color: #f5f7fa;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+
+/* ================================
+   HEADER
+================================ */
 
 header {
-    height:130px;
-    background:#111;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 40px;
-    border-bottom:4px solid #e5c100;
+    height: 105px;
+    background: rgba(17, 20, 24, 0.96);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 42px;
+    border-bottom: 1px solid #292d33;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    position: relative;
+    z-index: 10;
 }
 
+header::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #f4c400;
+}
+
+
+/* ================================
+   AIRPORT TITLE
+================================ */
 
 h1 {
-    margin:0;
-    font-size:38px;
-    letter-spacing:2px;
+    margin: 0;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffffff;
 }
-
 
 h2 {
-    margin:10px 0 0;
-    color:#ffd400;
-    font-size:28px;
+    margin: 7px 0 0;
+    color: #c9ced6;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
 }
 
+
+/* ================================
+   CLOCK
+================================ */
 
 #clock {
-    font-size:55px;
-    font-weight:bold;
+    font-size: 38px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #ffffff;
 }
 
 
+/* ================================
+   BOARD
+================================ */
 
 .board {
-    height:calc(100vh - 220px);
-    overflow-y:auto;
+    height: calc(100vh - 165px);
+    overflow-y: auto;
+    padding: 25px 35px 85px;
 }
 
+
+/* ================================
+   TABLE
+================================ */
 
 table {
-    width:100%;
-    border-collapse:collapse;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 7px;
 }
 
+
+/* ================================
+   TABLE HEADER
+================================ */
+
+thead {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
 
 th {
-    background:#202020;
-    color:#aaa;
-    font-size:20px;
-    padding:18px;
-    text-align:left;
+    background: #11151a;
+    color: #8f98a3;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 18px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid #292e35;
 }
 
+
+/* ================================
+   FLIGHT ROWS
+================================ */
 
 td {
-    padding:20px 18px;
-    font-size:26px;
-    border-bottom:1px solid #333;
+    padding: 17px 18px;
+    font-size: 21px;
+    font-weight: 500;
+    border-top: 1px solid #20252b;
+    border-bottom: 1px solid #20252b;
+    background: #11151a;
+}
+
+tr td:first-child {
+    border-left: 1px solid #20252b;
+    border-radius: 10px 0 0 10px;
+}
+
+tr td:last-child {
+    border-right: 1px solid #20252b;
+    border-radius: 0 10px 10px 0;
 }
 
 
-tr:nth-child(even){
-    background:#0c0c0c;
+/* Hover effect */
+
+tbody tr {
+    transition: transform 0.15s ease,
+                background 0.15s ease;
+}
+
+tbody tr:hover td {
+    background: #181d23;
+}
+
+tbody tr:hover {
+    transform: translateY(-1px);
 }
 
 
-
-.status {
-    font-weight:bold;
-}
-
-
-.ON-TIME {
-    color:#00e676;
-}
-
-
-.BOARDING {
-    color:#00aaff;
-}
-
-
-.DELAYED {
-    color:#ffb300;
-}
-
-
-.CANCELLED {
-    color:#ff1744;
-}
-
-.BOARDING{
-    color:#ffd54a;
-    font-weight:bold;
-}
-
-.FINAL-CALL{
-    color:#ff9800;
-    font-weight:bold;
-}
-
-.DEPARTING{
-    color:#42a5f5;
-    font-weight:bold;
-}
-
-.DEPARTED{
-    color:#9e9e9e;
-    font-weight:bold;
-}
-
-.DELAYED{
-    color:#ff9800;
-    font-weight:bold;
-}
-
-.CANCELLED{
-    color:#ff4444;
-    font-weight:bold;
-}
-
-.ON-TIME{
-    color:#00e676;
-    font-weight:bold;
-}
+/* ================================
+   AIRLINE LOGOS
+================================ */
 
 .airline-logo {
-    height:60px;
-    max-width:160px;
-    object-fit:contain;
-    vertical-align:middle;
+    height: 42px;
+    max-width: 120px;
+    object-fit: contain;
+    vertical-align: middle;
 }
 
+
+/* ================================
+   STATUS
+================================ */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 105px;
+    padding: 7px 13px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+
+    text-transform: uppercase;
+}
+
+
+/* Green */
+
+.ON-TIME {
+    color: #22e58a;
+    background: rgba(34, 229, 138, 0.10);
+    border: 1px solid rgba(34, 229, 138, 0.25);
+}
+
+
+/* Boarding */
+
+.BOARDING {
+    color: #ffd54a;
+    background: rgba(255, 213, 74, 0.10);
+    border: 1px solid rgba(255, 213, 74, 0.25);
+}
+
+
+/* Final call */
+
+.FINAL-CALL {
+    color: #ff9f43;
+    background: rgba(255, 159, 67, 0.10);
+    border: 1px solid rgba(255, 159, 67, 0.25);
+}
+
+
+/* Departing */
+
+.DEPARTING {
+    color: #42a5f5;
+    background: rgba(66, 165, 245, 0.10);
+    border: 1px solid rgba(66, 165, 245, 0.25);
+}
+
+
+/* Departed */
+
+.DEPARTED {
+    color: #9aa1aa;
+    background: rgba(154, 161, 170, 0.10);
+    border: 1px solid rgba(154, 161, 170, 0.20);
+}
+
+
+/* Delayed */
+
+.DELAYED {
+    color: #ffb020;
+    background: rgba(255, 176, 32, 0.10);
+    border: 1px solid rgba(255, 176, 32, 0.25);
+}
+
+
+/* Cancelled */
+
+.CANCELLED {
+    color: #ff4d5a;
+    background: rgba(255, 77, 90, 0.10);
+    border: 1px solid rgba(255, 77, 90, 0.25);
+}
+
+
+/* ================================
+   FOOTER
+================================ */
+
 footer {
-    position:absolute;
-    bottom:0;
-    height:60px;
-    width:100%;
-    background:#111;
-    display:flex;
-    align-items:center;
-    font-size:24px;
-    padding-left:30px;
-    color:#ddd;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+
+    height: 60px;
+    width: 100%;
+
+    background: #0d1014;
+    border-top: 1px solid #292d33;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 30px;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    color: #aeb5bd;
+
+    z-index: 20;
+}
+
+
+/* ================================
+   SCROLLBAR
+================================ */
+
+.board::-webkit-scrollbar {
+    width: 7px;
+}
+
+.board::-webkit-scrollbar-track {
+    background: #07090c;
+}
+
+.board::-webkit-scrollbar-thumb {
+    background: #353b43;
+    border-radius: 10px;
+}
+
+.board::-webkit-scrollbar-thumb:hover {
+    background: #4a515b;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 900px) {
+
+    header {
+        padding: 0 22px;
+        height: 90px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    h2 {
+        font-size: 14px;
+    }
+
+    #clock {
+        font-size: 28px;
+    }
+
+    .board {
+        padding: 18px 15px 75px;
+    }
+
+    th {
+        font-size: 12px;
+        padding: 12px;
+    }
+
+    td {
+        font-size: 17px;
+        padding: 14px 12px;
+    }
+
+    .airline-logo {
+        height: 32px;
+        max-width: 90px;
+    }
 }
