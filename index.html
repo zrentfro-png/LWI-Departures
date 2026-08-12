@@ -3,20 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Lawrence Wickham International Airport</title>
 
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
-
 
 <body>
 
-    <!-- =====================================
+    <!-- ================================
          TOP NAVIGATION
-    ====================================== -->
+    ================================= -->
 
     <header class="topbar">
 
@@ -27,11 +25,8 @@
             </div>
 
             <div class="airport-name">
-
                 <strong>LAWRENCE WICKHAM</strong>
-
                 <span>INTERNATIONAL AIRPORT</span>
-
             </div>
 
         </div>
@@ -48,13 +43,13 @@
                 <strong>1</strong>
 
                 <span class="gates">
-                    A · B
+                    Gates A · B
                 </span>
 
             </div>
 
-
             <div id="clock">
+                —
             </div>
 
         </div>
@@ -63,12 +58,11 @@
 
 
 
-    <!-- =====================================
-         MAIN CONTENT
-    ====================================== -->
+    <!-- ================================
+         SCROLLING PAGE
+    ================================= -->
 
     <main class="main">
-
 
         <!-- HERO -->
 
@@ -98,6 +92,7 @@
                 </span>
 
                 <strong id="today">
+                    —
                 </strong>
 
             </div>
@@ -106,9 +101,9 @@
 
 
 
-        <!-- =====================================
-             SUMMARY CARDS
-        ====================================== -->
+        <!-- ================================
+             SUMMARY COUNTERS
+        ================================= -->
 
         <section class="summary">
 
@@ -119,7 +114,7 @@
                 </span>
 
                 <strong id="totalFlights">
-                    —
+                    0
                 </strong>
 
             </div>
@@ -131,8 +126,10 @@
                     ON TIME
                 </span>
 
-                <strong class="green" id="onTimeFlights">
-                    —
+                <strong
+                    class="green"
+                    id="onTimeFlights">
+                    0
                 </strong>
 
             </div>
@@ -144,8 +141,10 @@
                     DELAYED
                 </span>
 
-                <strong class="gold" id="delayedFlights">
-                    —
+                <strong
+                    class="gold"
+                    id="delayedFlights">
+                    0
                 </strong>
 
             </div>
@@ -171,12 +170,11 @@
 
 
 
-        <!-- =====================================
-             FLIGHT SECTION
-        ====================================== -->
+        <!-- ================================
+             FLIGHT INFORMATION
+        ================================= -->
 
         <section class="flight-section">
-
 
             <div class="section-heading">
 
@@ -195,8 +193,7 @@
 
                 <div class="live-indicator">
 
-                    <span class="live-dot">
-                    </span>
+                    <span class="live-dot"></span>
 
                     LIVE
 
@@ -205,8 +202,7 @@
             </div>
 
 
-
-            <!-- FLIGHTS ARE INSERTED HERE -->
+            <!-- Flight cards are inserted here -->
 
             <div
                 id="flights"
@@ -214,13 +210,34 @@
             </div>
 
 
+            <!-- No flights message -->
+
+            <div
+                id="noFlights"
+                class="no-flights"
+                style="display:none;">
+
+                <div class="no-flights-icon">
+                    ✓
+                </div>
+
+                <strong>
+                    No upcoming departures
+                </strong>
+
+                <span>
+                    There are currently no flights within the displayed departure window.
+                </span>
+
+            </div>
+
         </section>
 
 
 
-        <!-- =====================================
-             TERMINAL INFORMATION
-        ====================================== -->
+        <!-- ================================
+             AIRPORT INFORMATION
+        ================================= -->
 
         <section class="airport-info">
 
@@ -259,7 +276,7 @@
                     </strong>
 
                     <span>
-                        Gates C & D · Shuttle service available
+                        Gates C & D · Shuttle outside the Green doors
                     </span>
 
                 </div>
@@ -276,28 +293,26 @@
                 <div>
 
                     <strong>
-                        Need assistance?
+                        Airport information
                     </strong>
 
                     <span>
-                        Airport information is available throughout the terminal.
+                        Please allow enough time for security and boarding.
                     </span>
 
                 </div>
 
             </div>
 
-
         </section>
-
 
     </main>
 
 
 
-    <!-- =====================================
+    <!-- ================================
          FOOTER
-    ====================================== -->
+    ================================= -->
 
     <footer>
 
@@ -315,16 +330,14 @@
 
 
         <span class="footer-message">
-
             Terminal 1 · Gates A & B
-
         </span>
 
     </footer>
 
 
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=6"></script>
 
 </body>
 
